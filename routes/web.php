@@ -20,19 +20,19 @@ Route::get('/', function () {
 });
 
 // Menggunakan metode Resource Controller
-// Route::resource('users', UserController::class);
+Route::resource('users', UserController::class);
 
 // Menggunakan metode reguler
-Route::prefix('users')->group(function() {
-  Route::name('users.')->group(function() {
-    Route::get('/', [UserController::class, 'index'])->name('index');
-  
-    Route::get('/create', [UserController::class, 'create'])->name('create');
-    Route::post('/store', [UserController::class, 'store'])->name('store');  
-  
-    Route::get('/edit', [UserController::class, 'edit'])->name('edit');
-    Route::post('/update', [UserController::class, 'update'])->name('update');  
-  
-    Route::post('/destroy', [UserController::class, 'destroy'])->name('destroy');  
-  });
-});
+// Route::prefix('users')->group(function () {
+//   Route::name('users.')->group(function () {
+//     Route::get('/', [UserController::class, 'index'])->name('index');
+
+//     Route::get('/create', [UserController::class, 'create'])->name('create');
+//     Route::post('/store', [UserController::class, 'store'])->name('store');
+
+//     Route::get('/edit', [UserController::class, 'edit'])->name('edit');
+//     Route::post('/update', [UserController::class, 'update'])->name('update');
+
+//     Route::post('/destroy', [UserController::class, 'destroy'])->name('destroy');
+//   });
+// });
