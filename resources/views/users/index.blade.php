@@ -13,34 +13,40 @@
 
 <body>
   <div class="container mt-3 mb-5 col-5 bg-dark-subtle">
-    <h4 class="pt-3">Data User</h4>
+    <h4 class="pt-3">{{ isset($user) ? 'Ubah ' : 'Tambah ' }}Data User</h4>
 
-    <form>
+
+    <form action="{{ isset($user) ? route('users.update', $user->id) : route('users.store') }}" method="post">
+      @csrf
+      @isset($user)
+        @method('PUT')
+      @endisset
+
       <div class="mb-3">
-        <label for="InputNIM" class="form-label">NIM</label>
-        <input type="text" class="form-control" id="InputNIM">
+        <label for="nim" class="form-label">NIM</label>
+        <input type="text" class="form-control" id="nim" name="nim"
+          value="{{ isset($user) ? $user->nim : '' }}">
       </div>
 
       <div class="mb-3">
-        <label for="InputNama" class="form-label">Nama</label>
-        <input type="text" class="form-control" id="InputNama">
+        <label for="nama" class="form-label">Nama</label>
+        <input type="text" class="form-control" id="nama" name="nama"
+          value="{{ isset($user) ? $user->nama : '' }}">
       </div>
 
       <div class="mb-3">
-        <label for="InputAlamat">Alamat</label>
-        <textarea class="form-control" id="InputAlamat"></textarea>
+        <label for="alamat">Alamat</label>
+        <textarea class="form-control" id="alamat" name="alamat">{{ isset($user) ? $user->nim : '' }}</textarea>
       </div>
 
       <div class="mb-3">
-        <label for="InputFakultas">Fakultas</label>
-        <select class="form-select" id="InputFakultas">
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+        <label for="fakultas">Fakultas</label>
+        <select class="form-select" id="fakultas" name="fakultas">
+          <option value="teknik">Teknik</option>
         </select>
       </div>
 
-      <button type="submit" class="btn btn-primary mb-3">Submit</button>
+      <button type="submit" class="btn btn-primary mb-3">Simpan</button>
     </form>
   </div>
 
@@ -53,30 +59,31 @@
           <th scope="col">Nama</th>
           <th scope="col">Alamat</th>
           <th scope="col">Fakultas</th>
+          <th scope="col" class="pr-0">Aksi</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>1234</td>
-          <td>Maman Suherman</td>
-          <td>Cimahi</td>
-          <td>Teknik</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>5678</td>
-          <td>Asep Sutisna</td>
-          <td>Bandung</td>
-          <td>Teknik</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>6543</td>
-          <td>Dadang Nurjaman</td>
-          <td>Soreang</td>
-          <td>Teknik</td>
-        </tr>
+        @foreach ($users as $user)
+          <tr>
+            <th scope="row">{{ $loop->iteration }}</th>
+            <td>{{ $user->nim }}</td>
+            <td>{{ $user->nama }}</td>
+            <td>{{ $user->alamat }}</td>
+            <td>{{ $user->fakultas }}</td>
+            <td class="d-flex flex-row">
+              <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Ubah</a>
+
+              <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn btn-danger">Hapus</button>
+              </form>
+            </td>
+          </tr>
+        @endforeach
+
       </tbody>
     </table>
   </div>
